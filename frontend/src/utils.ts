@@ -1,11 +1,15 @@
-import { AccountAddress, BlockHash, ConcordiumGRPCClient } from '@concordium/web-sdk';
+import {
+  AccountAddress,
+  BlockHash,
+  ConcordiumGRPCClient,
+} from "@concordium/web-sdk";
 
-import { WalletProvider } from './wallet-connection';
-import { RECENT_BLOCK_DURATION } from './constants';
+import { WalletProvider } from "./wallet-connection";
+import { RECENT_BLOCK_DURATION } from "./constants";
 
 interface RecentBlock {
-    blockHeight: bigint;
-    blockHash: BlockHash.Type;
+  blockHeight: bigint;
+  blockHash: BlockHash.Type;
 }
 
 /**
@@ -18,25 +22,30 @@ interface RecentBlock {
  *
  * @throws An error if the node responses with one.
  */
-export async function getRecentBlock(grpcClient: ConcordiumGRPCClient | undefined): Promise<RecentBlock> {
-    if (!grpcClient) {
-        throw Error(`'grpcClient' is undefined`);
-    }
+export async function getRecentBlock(
+  grpcClient: ConcordiumGRPCClient | undefined,
+): Promise<RecentBlock> {
+  if (!grpcClient) {
+    throw Error(`'grpcClient' is undefined`);
+  }
 
-    const bestBlockHeight = (await grpcClient.client.getConsensusInfo(''))?.response.bestBlockHeight;
+  const bestBlockHeight = (await grpcClient.client.getConsensusInfo(""))
+    ?.response.bestBlockHeight;
 
-    if (!bestBlockHeight) {
-        throw Error(`Couldn't get 'bestBlockHeight' from chain`);
-    }
+  if (!bestBlockHeight) {
+    throw Error(`Couldn't get 'bestBlockHeight' from chain`);
+  }
 
-    const recentBlockHeight = bestBlockHeight.value - RECENT_BLOCK_DURATION;
+  const recentBlockHeight = bestBlockHeight.value - RECENT_BLOCK_DURATION;
 
-    const recentBlockHash = (await grpcClient.getBlocksAtHeight(recentBlockHeight))[0];
+  const recentBlockHash = (
+    await grpcClient.getBlocksAtHeight(recentBlockHeight)
+  )[0];
 
-    if (!recentBlockHash) {
-        throw Error(`Couldn't get 'recentBlockHash' from chain`);
-    }
-    return { blockHash: recentBlockHash, blockHeight: recentBlockHeight };
+  if (!recentBlockHash) {
+    throw Error(`Couldn't get 'recentBlockHash' from chain`);
+  }
+  return { blockHash: recentBlockHash, blockHeight: recentBlockHeight };
 }
 
 /**
@@ -53,21 +62,31 @@ export async function getRecentBlock(grpcClient: ConcordiumGRPCClient | undefine
  * with the given schema, if the `provider` is undefined, or if a multi-sig account is used as signer.
  */
 export async function requestSignature(
-    recentBlockHash: BlockHash.Type,
-    schema: string,
-    message: string | string[] | object,
-    signer: string,
-    provider: WalletProvider | undefined,
+  recentBlockHash: BlockHash.Type,
+  schema: string,
+  message: string | string[] | object,
+  signer: string,
+  provider: WalletProvider | undefined,
 ): Promise<string> {
-    if (!provider) {
-        throw Error(`'provider' is undefined. Connect your wallet. Have an account in your wallet.`);
-    }
+  if (!provider) {
+    throw Error(
+      `'provider' is undefined. Connect your wallet. Have an account in your wallet.`,
+    );
+  }
 
-    const signatures = await provider.signMessage(signer, message, recentBlockHash, schema);
-    if (Object.keys(signatures).length !== 1 || Object.keys(signatures[0]).length !== 1) {
-        throw Error(`Dapp only supports single singer accounts`);
-    }
-    return signatures[0][0];
+  const signatures = await provider.signMessage(
+    signer,
+    message,
+    recentBlockHash,
+    schema,
+  );
+  if (
+    Object.keys(signatures).length !== 1 ||
+    Object.keys(signatures[0]).length !== 1
+  ) {
+    throw Error(`Dapp only supports single singer accounts`);
+  }
+  return signatures[0][0];
 }
 
 /**
@@ -78,15 +97,15 @@ export async function requestSignature(
  * @returns An error message if validation fails.
  */
 export function validateAccountAddress(accountAddress: string | undefined) {
-    if (accountAddress) {
-        try {
-            AccountAddress.fromBase58(accountAddress);
-        } catch (e) {
-            return `Please enter a valid account address. It is a base58 string with a fixed length of 50 characters. Original error: ${
-                (e as Error).message
-            }.`;
-        }
+  if (accountAddress) {
+    try {
+      AccountAddress.fromBase58(accountAddress);
+    } catch (e) {
+      return `Please enter a valid account address. It is a base58 string with a fixed length of 50 characters. Original error: ${
+        (e as Error).message
+      }.`;
     }
+  }
 }
 
 /**
@@ -96,9 +115,9 @@ export function validateAccountAddress(accountAddress: string | undefined) {
  * @returns An error message if validation fails.
  */
 export function validateTweetUrl(url: string) {
-    // eslint-disable-next-line no-useless-escape
-    const regex = /^https:\/\/(x\.com|twitter\.com)\/[^\/]+\/status\/(\d+)$/;
-    if (!url.match(regex)) {
-        return `Not a valid tweet URL (expected format: https://x.com/MaxMustermann/status/1818198789817077916 or https://twitter.com/JohnDoe/status/1818198789817077916)`;
-    }
+  // eslint-disable-next-line no-useless-escape
+  const regex = /^https:\/\/(x\.com|twitter\.com)\/[^\/]+\/status\/(\d+)$/;
+  if (!url.match(regex)) {
+    return `Not a valid tweet URL (expected format: https://x.com/MaxMustermann/status/1818198789817077916 or https://twitter.com/JohnDoe/status/1818198789817077916)`;
+  }
 }

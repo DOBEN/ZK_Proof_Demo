@@ -17,15 +17,15 @@
 }
 
 .bg-secondary {
-  background-color: #1B2323 !important;
+  background-color: #1b2323 !important;
 }
 
 .text-muted {
-  color: #CCD5D5 !important;
+  color: #ccd5d5 !important;
 }
 
 .bg-dark {
-  background-color: #14181D !important;
+  background-color: #14181d !important;
 }
 
 .min-vh-100 {
@@ -48,11 +48,11 @@
 }
 
 .wallet-option {
-  background-color: #1B2323;
+  background-color: #1b2323;
   border-radius: 8px;
 
   &:hover {
-    background-color: #6B7280; // Hover background color
+    background-color: #6b7280; // Hover background color
   }
 }
 
@@ -77,7 +77,6 @@
   font-size: 0.9rem;
   color: #adb5bd; // Optional: lighter color for "Coming Soon"
 }
-
 
 .wallet-border {
   display: flex;
@@ -108,5 +107,4 @@
   width: 180px;
   border: none;
   border-radius: 30px;
-  
 }

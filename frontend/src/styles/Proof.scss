@@ -44,15 +44,14 @@
   }
 }
 
-.note-text{
-  color: #CCD5D5;
+.note-text {
+  color: #ccd5d5;
   font-size: 12px;
   font-weight: 500;
-    font-family: var(--font-satoshi-sans), sans-serif;
+  font-family: var(--font-satoshi-sans), sans-serif;
 }
 
 // Skeleton Loading
-
 
 .skeleton-loading-container {
   min-height: 100vh; // Equivalent to min-h-screen
@@ -76,8 +75,7 @@
   }
 }
 
-
-// 
+//
 
 .user-info-container {
   width: 339px;

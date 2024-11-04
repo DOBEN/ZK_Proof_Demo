@@ -1,9 +1,9 @@
 import { Button } from "react-bootstrap";
-import '../../styles/Submission.scss';
+import "../../styles/Submission.scss";
 import backgroundImage from "../../../public/images/Slide 16_9 - 13.svg";
 import linkImage from "../../../public/images/link.svg";
 
-export default function Submission() {
+export default function FinalPage() {
   return (
     <div className="submission-container">
       <img
@@ -18,9 +18,12 @@ export default function Submission() {
         <p className="text-white mb-6">
           Stay updated with the latest from Concordium on X.
         </p>
-        <Button onClick={(e)=>{
-          window.open("https://x.com/concordiumnet", "_blank")
-        }} className="submission-button">
+        <Button
+          onClick={(e) => {
+            window.open("https://x.com/concordiumnet", "_blank");
+          }}
+          className="submission-button"
+        >
           Concordium on X <img src={linkImage} className="-rotate-180 ml-2" />
         </Button>
       </div>

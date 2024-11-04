@@ -2,4 +2,4 @@
 
 ## 1.0.0
 
--   Initial `front end`.
+- Initial `front end`.
